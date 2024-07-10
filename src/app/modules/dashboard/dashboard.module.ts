@@ -4,9 +4,14 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { DashboardHomeComponent } from './page/dashboard-home/dashboard-home.component';
 import {RouterModule} from "@angular/router";
 import {DASHBOARD_ROUTES} from "./dashboard.routing";
+
 import {SidebarModule} from "primeng/sidebar";
-
-
+import {ButtonModule} from "primeng/button";
+import {ToolbarModule} from "primeng/toolbar";
+import {CardModule} from "primeng/card";
+import {ToastModule} from "primeng/toast";
+import {CookieService} from "ngx-cookie-service";
+import {MessageService} from "primeng/api";
 
 @NgModule({
   declarations: [
@@ -18,7 +23,12 @@ import {SidebarModule} from "primeng/sidebar";
     ReactiveFormsModule,
     RouterModule.forChild(DASHBOARD_ROUTES),
     //PrimeNg
-    SidebarModule
-  ]
+    SidebarModule,
+    ButtonModule,
+    ToolbarModule,
+    CardModule,
+    ToastModule
+  ],
+  providers: [ CookieService, MessageService ]
 })
 export class DashboardModule { }
