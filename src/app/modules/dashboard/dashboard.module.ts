@@ -12,6 +12,8 @@ import {CardModule} from "primeng/card";
 import {ToastModule} from "primeng/toast";
 import {CookieService} from "ngx-cookie-service";
 import {MessageService} from "primeng/api";
+import {ChartModule} from "primeng/chart";
+import {SharedModule} from "../../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -27,7 +29,10 @@ import {MessageService} from "primeng/api";
     ButtonModule,
     ToolbarModule,
     CardModule,
-    ToastModule
+    ToastModule,
+    ChartModule,
+
+    SharedModule
   ],
   providers: [ CookieService, MessageService ]
 })
