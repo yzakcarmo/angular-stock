@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ToolbarNavigationComponent } from './toolbar-navigation.component';
 
-describe('ToolbarNavegationComponent', () => {
+describe('ToolbarNavigationComponent', () => {
   let component: ToolbarNavigationComponent;
   let fixture: ComponentFixture<ToolbarNavigationComponent>;
 
