@@ -18,10 +18,11 @@ export class ProductsDataTransferService {
   }
 
   getProductsDatas(){
-    this.productsDataEmitter$.pipe(
+    this.productsDataEmitter$
+      .pipe(
         take(1),
         map((data) => data?.filter((product) => product.amount > 0))
-    )
+      )
       .subscribe({
         next: (response) => {
           if(response) {

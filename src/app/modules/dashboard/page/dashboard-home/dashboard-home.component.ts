@@ -1,15 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProductsService} from "../../../../services/products/products.service";
 import {MessageService} from "primeng/api";
 import {GetAllProductsResponse} from "../../../../models/interfaces/products/response/GetAllProductsResponse";
 import {ProductsDataTransferService} from "../../../../shared/services/products/products-data-transfer.service";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-dashboard-home',
   templateUrl: './dashboard-home.component.html',
   styleUrls: []
 })
-export class DashboardHomeComponent implements OnInit{
+export class DashboardHomeComponent implements OnInit, OnDestroy{
+  private destroy$ = new Subject<void>();
   public productsList: Array<GetAllProductsResponse> = [];
 
   constructor(
@@ -24,6 +26,7 @@ export class DashboardHomeComponent implements OnInit{
 
   getProductsData(){
     this.productsService.getAllProducts()
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
           if(response.length > 0) {
@@ -41,5 +44,10 @@ export class DashboardHomeComponent implements OnInit{
           })
         }
       })
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
