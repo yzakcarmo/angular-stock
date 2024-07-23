@@ -5,6 +5,7 @@ import {ProductsDataTransferService} from "../../../../shared/services/products/
 import {Router} from "@angular/router";
 import {GetAllProductsResponse} from "../../../../models/interfaces/products/response/GetAllProductsResponse";
 import {MessageService} from "primeng/api";
+import {EventAction} from "../../../../models/interfaces/products/event/EventAction";
 
 @Component({
   selector: 'app-products-home',
@@ -58,6 +59,12 @@ export class ProductsHomeComponent implements OnInit,OnDestroy{
           this.router.navigate(['/dashboard']);
         }
       })
+  }
+
+  handleProductAction(event: EventAction){
+    if(event) {
+      console.log('RECEBIDO', event)
+    }
   }
 
   ngOnDestroy() {
