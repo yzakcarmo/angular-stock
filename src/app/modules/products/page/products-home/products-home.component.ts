@@ -6,6 +6,8 @@ import {Router} from "@angular/router";
 import {GetAllProductsResponse} from "../../../../models/interfaces/products/response/GetAllProductsResponse";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {EventAction} from "../../../../models/interfaces/products/event/EventAction";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {ProductFormComponent} from "../../components/product-form/product-form.component";
 
 @Component({
   selector: 'app-products-home',
@@ -14,6 +16,7 @@ import {EventAction} from "../../../../models/interfaces/products/event/EventAct
 })
 export class ProductsHomeComponent implements OnInit,OnDestroy{
   private readonly destroy$ = new Subject<void>();
+  private ref!: DynamicDialogRef;
   public productsData: Array<GetAllProductsResponse> = [];
 
   constructor(
@@ -21,8 +24,8 @@ export class ProductsHomeComponent implements OnInit,OnDestroy{
     private productsDtService: ProductsDataTransferService,
     private router: Router,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
-
+    private confirmationService: ConfirmationService,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit() {
@@ -64,7 +67,23 @@ export class ProductsHomeComponent implements OnInit,OnDestroy{
 
   handleProductAction(event: EventAction){
     if(event) {
-      console.log('RECEBIDO', event)
+      this.ref = this.dialogService.open(ProductFormComponent, {
+        header: event?.action,
+        width: '70%',
+        contentStyle: { overflow: 'auto' },
+        baseZIndex: 10000,
+        maximizable: true,
+        data: {
+          event: event,
+          productsDatas: this.productsData,
+
+        }
+      });
+      this.ref.onClose
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => this.getAPIProductsData(),
+        })
     }
   }
 

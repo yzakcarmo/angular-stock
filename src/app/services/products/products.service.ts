@@ -5,6 +5,8 @@ import {environment} from "../../../environments/environment";
 import {Observable, map} from "rxjs";
 import {GetAllProductsResponse} from "../../models/interfaces/products/response/GetAllProductsResponse";
 import {DeleteProductResponse} from "../../models/interfaces/products/response/DeleteProductResponse";
+import {CreateProductRequest} from "../../models/interfaces/products/request/CreateProductRequest";
+import {CreateProductResponse} from "../../models/interfaces/products/response/CreateProductResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +39,12 @@ export class ProductsService {
           product_id: product_id,
         }
       }
+    )
+  }
+
+  createProduct(requestDatas: CreateProductRequest): Observable<CreateProductResponse> {
+    return this.http.post<CreateProductResponse>(
+      `${this.API_URL}/product`, requestDatas, this.httpOptions
     )
   }
 

@@ -5,6 +5,8 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {MessageService} from "primeng/api";
 import {Router} from "@angular/router";
 import {GetCategoriesResponse} from "../../../../models/interfaces/categories/responses/GetCategoriesResponse";
+import {CreateProductRequest} from "../../../../models/interfaces/products/request/CreateProductRequest";
+import {ProductsService} from "../../../../services/products/products.service";
 
 @Component({
   selector: 'app-product-form',
@@ -27,6 +29,7 @@ export class ProductFormComponent implements OnInit, OnDestroy{
 
   constructor(
     private categoriesService: CategoriesService,
+    private productService: ProductsService,
     private formBuilder: FormBuilder,
     private messageService: MessageService,
     private router: Router
@@ -48,7 +51,42 @@ export class ProductFormComponent implements OnInit, OnDestroy{
       })
   }
 
-  handleSubmitAddProduct(){}
+  handleSubmitAddProduct(){
+    if(this.addProductForm?.value && this.addProductForm?.valid){
+      const requestCreateProduct: CreateProductRequest = {
+        amount: Number(this.addProductForm.value.amount),
+        category_id: this.addProductForm.value.category_id as string,
+        description: this.addProductForm.value.description as string,
+        name: this.addProductForm.value.name as string,
+        price: this.addProductForm.value.price as string
+      };
+
+      this.productService.createProduct(requestCreateProduct)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            if(response) {
+              this.messageService.add({
+                severity: "success",
+                summary: "Sucesso",
+                detail: 'Produto criado com sucesso',
+                life: 2500
+              })
+            }
+          }, error: (err) => {
+            console.log(err);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Erro na criação',
+              life: 2500
+            })
+          }
+        })
+    }
+
+    this.addProductForm.reset();
+  }
 
   ngOnDestroy(){
     this.destroy$.next();
