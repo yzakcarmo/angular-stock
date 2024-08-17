@@ -23,12 +23,14 @@ import {SharedModule} from "../../shared/shared.module";
 import {PRODUCTS_ROUTES} from "./products.routing";
 import { ProductsTableComponent } from './components/products-table/products-table.component';
 import {RippleModule} from "primeng/ripple";
+import { ProductFormComponent } from './components/product-form/product-form.component';
 
 
 @NgModule({
   declarations: [
     ProductsHomeComponent,
-    ProductsTableComponent
+    ProductsTableComponent,
+    ProductFormComponent
   ],
   imports: [
     CommonModule,
